@@ -7,7 +7,7 @@ import u04lab.code.Lists.List._
 trait Student {
   def name: String
   def year: Int
-  def enrolling(course: Course): Unit // the student participates to a Course
+  def enrolling(course: Course*): Unit // the student participates to a Course
   def courses: List[String] // names of course the student participates to
   def hasTeacher(teacher: String): Boolean // is the student participating to a course of this teacher?
 }
@@ -24,11 +24,13 @@ object Student {
 
     private var list: List[Course] = Nil()
 
-    override def enrolling(course: Course): Unit = list = append(list, Cons(course,Nil()))
-
     override def courses: List[String] = map(list)(x => x.name)
 
     override def hasTeacher(teacher: String): Boolean = find(map(list)(x => x.teacher))(teacher)
+
+    override def enrolling(course: Course*): Unit = for (i<-course){
+      list = append(list, Cons(i,Nil()))
+    }
   }
 }
 
@@ -50,9 +52,10 @@ object Try extends App {
   s1.enrolling(cPPS)
   s1.enrolling(cPCD)
   s2.enrolling(cPPS)
-  s3.enrolling(cPPS)
+  s3.enrolling(cPPS,cPCD,cSDR)
+  /*s3.enrolling(cPPS)
   s3.enrolling(cPCD)
-  s3.enrolling(cSDR)
+  s3.enrolling(cSDR)*/
   println(s1.courses, s2.courses, s3.courses) // (Cons(PCD,Cons(PPS,Nil())),Cons(PPS,Nil()),Cons(SDR,Cons(PCD,Cons(PPS,Nil()))))
   println(s1.hasTeacher("Ricci")) // true
 }
@@ -63,5 +66,5 @@ object Try extends App {
   * - try to implement in StudentImpl method courses with map V
   * - try to implement in StudentImpl method hasTeacher with map and find V
   * - check that the two println above work correctly V
-  * - refactor the code so that method enrolling accepts a variable argument Course*
+  * - refactor the code so that method enrolling accepts a variable argument Course* V
   */
