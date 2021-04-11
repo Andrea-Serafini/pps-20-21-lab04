@@ -10,12 +10,9 @@ trait Complex {
 }
 
 object Complex {
-  def apply(re: Double, im: Double): Complex = new ComplexImpl(re, im)
+  def apply(re: Double, im: Double): Complex = ComplexImpl(re, im)
 
   private case class ComplexImpl(override val re: Double, override val im: Double) extends Complex {
-
-
-    assert(re != null && im != null)
 
     override def +(c: Complex): Complex = Complex(re+c.re,im+c.im)
 
