@@ -1,7 +1,8 @@
 package u04lab.code
 
-import Lists._
-import u04lab.code.Lists.List.Cons // import custom List type (not the one in Scala stdlib)
+//import Lists._
+import u04lab.code.Lists.List
+import u04lab.code.Lists.List._
 
 trait Student {
   def name: String
@@ -17,11 +18,26 @@ trait Course {
 }
 
 object Student {
-  def apply(name: String, year: Int = 2017): Student = ???
+  def apply(name: String, year: Int = 2017): Student = StudentImpl(name,year)
+
+  case class StudentImpl(override val name: String, override val year: Int) extends Student{
+
+    private var list: List[Course] = Nil()
+
+    override def enrolling(course: Course): Unit = list = append(list, Cons(course,Nil()))
+
+    override def courses: List[String] = map(list)(x => x.name)
+
+    override def hasTeacher(teacher: String): Boolean = find(map(list)(x => x.teacher))(teacher)
+  }
 }
 
 object Course {
-  def apply(name: String, teacher: String): Course = ???
+  def apply(name: String, teacher: String): Course = CourseImpl(name, teacher)
+
+  case class CourseImpl(override val name: String, override val teacher: String)extends Course{
+
+  }
 }
 
 object Try extends App {
@@ -42,10 +58,10 @@ object Try extends App {
 }
 
 /** Hints:
-  * - simply implement Course, e.g. with a case class
-  * - implement Student with a StudentImpl keeping a private Set of courses
-  * - try to implement in StudentImpl method courses with map
-  * - try to implement in StudentImpl method hasTeacher with map and find
-  * - check that the two println above work correctly
+  * - simply implement Course, e.g. with a case class V
+  * - implement Student with a StudentImpl keeping a private Set of courses V
+  * - try to implement in StudentImpl method courses with map V
+  * - try to implement in StudentImpl method hasTeacher with map and find V
+  * - check that the two println above work correctly V
   * - refactor the code so that method enrolling accepts a variable argument Course*
   */

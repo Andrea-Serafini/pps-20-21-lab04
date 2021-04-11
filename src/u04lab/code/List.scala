@@ -24,6 +24,7 @@ object Lists extends App {
       case _ => l2
     }
 
+    @tailrec
     def drop[A](l: List[A], n: Int): List[A] = l match {
       case _ if n<=0 || l==Nil() => l
       case Cons(h,t) => drop(t,n-1)
@@ -69,7 +70,9 @@ object Lists extends App {
 
     def appendByFold[A](l1: List[A], l2: List[A]): List[A] = ???
 
-    def length(l: List[_]): Int = ???
+    def length(l: List[_]): Int = sum(map(l)(_=>1))
+
+    def find[A](l: List[A])(f: A): Boolean = length(filter(l)(_ == f))>0
   }
 
   // Note "List." qualification
@@ -93,9 +96,9 @@ object Lists extends App {
   println(foldRightViaFoldleft(lst)(0)(_-_)) // -8
 
   // EXERCISES:
-  println(filterByFlatmap(Cons(10, Cons(20, Nil())))(_>15)) // Cons(20, Nil())
-  println(filterByFlatmap(Cons("a", Cons("bb", Cons("ccc", Nil()))))( _.length <=2)) // Cons("a",Cons("bb", Nil()))
-  println(appendByFold(Cons(3,Cons(7,Nil())), Cons(1,Cons(5,Nil())))) // Cons(3,Cons(7,Cons(1,Cons(5, Nil()))))
+  //println(filterByFlatmap(Cons(10, Cons(20, Nil())))(_>15)) // Cons(20, Nil())
+  //println(filterByFlatmap(Cons("a", Cons("bb", Cons("ccc", Nil()))))( _.length <=2)) // Cons("a",Cons("bb", Nil()))
+  //println(appendByFold(Cons(3,Cons(7,Nil())), Cons(1,Cons(5,Nil())))) // Cons(3,Cons(7,Cons(1,Cons(5, Nil()))))
   println(length(Nil())) // 0
   println(length(Cons(3,Cons(7,Cons(1,Cons(5, Nil())))))) // 4
 }
