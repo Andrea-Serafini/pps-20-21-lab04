@@ -14,6 +14,14 @@ object Lists extends App {
 
     def nil[A]: List[A] = Nil() // smart constructor
 
+    def apply[A](e: A*): List[A] = {
+      var list: List[A] = nil
+      for (i <- e){
+        list = append(list, Cons(i, Nil()))
+    }
+      list
+    }
+
     def sum(l: List[Int]): Int = l match {
       case Cons(h, t) => h + sum(t)
       case _ => 0
@@ -67,9 +75,10 @@ object Lists extends App {
       foldRightViaFoldleft(l)(acc)(f)
 
     def filterByFlatmap[A](l: List[A])(f: A => Boolean): List[A] = flatMap(l)(
-    a => f(a) match {
-      case true => Cons(a, Nil())
-      case _ => Nil()
+    a => if (f(a)) {
+      Cons(a, Nil())
+    } else {
+      Nil()
     }
     )
 
@@ -108,4 +117,7 @@ object Lists extends App {
   println(appendByFold(Cons(3,Cons(7,Nil())), Cons(1,Cons(5,Nil())))) // Cons(3,Cons(7,Cons(1,Cons(5, Nil()))))
   println(length(Nil())) // 0
   println(length(Cons(3,Cons(7,Cons(1,Cons(5, Nil())))))) // 4
+
+  println(appendByFold(Cons(3,Cons(7,Nil())), Cons(1,Cons(5,Nil()))))
+  println(appendByFold(List(3,7), List(1,5)))
 }
