@@ -74,17 +74,9 @@ object Lists extends App {
     def foldRight[A,B](l: List[A])(acc: B)(f: (A,B)=>B): B =
       foldRightViaFoldleft(l)(acc)(f)
 
-    def filterByFlatmap[A](l: List[A])(f: A => Boolean): List[A] = flatMap(l)(
-    a => if (f(a)) {
-      Cons(a, Nil())
-    } else {
-      Nil()
-    }
-    )
+    def filterByFlatmap[A](l: List[A])(f: A => Boolean): List[A] = flatMap(l)(a => if (f(a)) Cons(a, Nil()) else Nil())
 
-    def appendByFold[A](l1: List[A], l2: List[A]): List[A] = foldRight(l1)(l2)(
-      (h,t) => Cons(h,t)
-    )
+    def appendByFold[A](l1: List[A], l2: List[A]): List[A] = foldRight(l1)(l2)((h,t) => Cons(h,t))
 
     def length(l: List[_]): Int = sum(map(l)(_=>1))
 
