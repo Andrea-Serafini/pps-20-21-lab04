@@ -89,6 +89,8 @@ object Lists extends App {
     def length(l: List[_]): Int = sum(map(l)(_=>1))
 
     def find[A](l: List[A])(f: A): Boolean = length(filter(l)(_ == f))>0
+
+    def allEquals[A](l: List[A])(f: A): Boolean = length(filter(l)(_ == f)) == length(l)
   }
 
   // Note "List." qualification

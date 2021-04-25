@@ -35,7 +35,7 @@ object Student {
     override def hasTeacher(teacher: String): Boolean = find(map(list)(x => x.teacher))(teacher)
 
     override def enrolling(course: Course*): Unit = for (i <- course) {
-      list = append(list, Cons(i, Nil()))
+      list = Cons(i, list)
     }
   }
 }
@@ -54,12 +54,11 @@ object sameTeacher {
     val first: String = drop(teachers,1) match {
       case Cons(h,t) => h
     }
-    val res: String = foldLeft[String,String](teachers)(first)((a,b) => if (a == b) a else "error")
-    if (res == "error") {
-      Option.empty[String]
-    }else {
-      Option(res)
-    }
+    if (allEquals(teachers)(first)) Option(first) else Option.empty
+  }
+
+  def find(list: List[String], elem: String): Option[String] = {
+    if (foldLeft(list)(true)((a,b) => (elem == b) && a)) Option(elem) else Option.empty
   }
 }
 
@@ -93,7 +92,6 @@ object Try extends App {
     case _ => println(s"$coursesWrong have different teachers ")
   }
 }
-
 
 /** Hints:
  * - simply implement Course, e.g. with a case class V
